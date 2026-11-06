@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade License Portal - Single Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;600&family=Cormorant+Garamond:wght@400;600&family=Great+Vibes&family=Montserrat:wght@400;600&family=Oswald:wght@400;600&family=Sacramento&family=Bebas+Neue&family=Dancing+Script:wght@400;700&family=Lobster&family=Pacifico&family=Righteous&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cinzel', serif;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #334155;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .form-container {
+            position: relative;
+            z-index: 1;
+            background: #ffffff;
+            padding: 35px 40px;
+            border-radius: 16px;
+            max-width: 750px;
+            margin: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .form-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .country-badge {
+            font-weight: bold;
+            font-size: 14px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 24px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .flag-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .music-player-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .music-btn {
+            background: #0284c7;
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+        .music-btn:hover {
+            background: #0369a1;
+            transform: scale(1.08);
+        }
+        .seek-slider {
+            width: 70px;
+            height: 4px;
+            accent-color: #0284c7;
+            cursor: pointer;
+        }
+        .time-display {
+            font-size: 10px;
+            font-family: monospace;
+            color: #94a3b8;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #475569;
+            letter-spacing: 0.3px;
+        }
+        .input-mic-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-mic-wrapper input[type="text"], .input-mic-wrapper select {
+            width: 100%;
+            padding: 11px 110px 11px 14px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #0f172a;
+        }
+        .input-mic-wrapper select {
+            padding-right: 14px;
+        }
+        .input-mic-wrapper input[type="text"]:focus, .input-mic-wrapper select:focus {
+            outline: none;
+            border-color: #0284c7;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+        .voice-controls-right {
+            position: absolute;
+            right: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .lang-select {
+            padding: 3px 5px;
+            font-size: 11px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .mic-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 50%;
+            color: #64748b;
+        }
+        .mic-btn:hover {
+            background: #e2e8f0;
+            color: #0284c7;
+        }
+        .mic-btn.listening {
+            color: #ef4444;
+            animation: pulseMic 1s infinite alternate;
+        }
+        @keyframes pulseMic {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.25); }
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #0284c7;
+            cursor: pointer;
+        }
+        .checkbox-group label {
+            margin-bottom: 0;
+            color: #0f172a;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn-save {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 15px;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+        .btn-save:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        .btn-reset {
+            background: #f1f5f9;
+            color: #ef4444;
+            border: 1px solid #fca5a5;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 100%;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+        .upload-section {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .upload-box {
+            flex: 1;
+            min-width: 200px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
+        }
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #0284c7;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .custom-file-upload.qr-upload {
+            background: #0d9488;
+        }
+        .preview-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+            margin: 10px auto;
+            border: 3px solid #0284c7;
+        }
+        .preview-qr-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            display: none;
+            margin: 10px auto;
+            border: 3px solid #0d9488;
+            border-radius: 8px;
+        }
+        #qr-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px auto;
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed #cbd5e1;
+            width: fit-content;
+            min-height: 100px;
+            min-width: 100px;
+        }
+        .btn-final {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .btn-final:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        .btn-back {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-back:hover {
+            background: #475569;
+        }
+        h2 {
+            text-align: center;
+            color: #0f172a;
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+        h3 {
+            margin-top: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+            color: #1e293b;
+            font-size: 16px;
+        }
+        .creator-credit, .creator-credit-top {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            animation: rainbowColors 4s linear infinite;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .creator-credit-top { margin-bottom: 25px; }
+        .creator-credit { margin-top: 30px; }
+        .font-opt-0 { font-family: 'Cinzel', serif; }
+        .font-opt-1 { font-family: 'Playfair Display', serif; }
+        .font-opt-2 { font-family: 'Cormorant Garamond', serif; }
+        .font-opt-3 { font-family: 'Great Vibes', cursive; }
+        .font-opt-4 { font-family: 'Montserrat', sans-serif; }
+        .font-opt-5 { font-family: 'Oswald', sans-serif; }
+        .font-opt-6 { font-family: 'Sacramento', cursive; }
+        .font-opt-7 { font-family: 'Bebas Neue', cursive; }
+        .font-opt-8 { font-family: 'Dancing Script', cursive; }
+        .font-opt-9 { font-family: 'Lobster', cursive; }
+        .font-opt-10 { font-family: 'Pacifico', cursive; }
+        .font-opt-11 { font-family: 'Righteous', cursive; }
+        .font-opt-12 { font-family: 'Cinzel Decorative', serif; }
+        @keyframes rainbowColors {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- গোপন লোকাল অডিও ইঞ্জিন -->
+<audio id="audioPlayer" style="display: none;"></audio>
+<div class="form-container">
+    <div class="form-header-top">
+        <div class="music-player-controls">
+            <span>🎵</span>
+            <button class="music-btn" onclick="prevTrack()" title="Previous Track">⏮</button>
+            <button class="music-btn" id="playPauseBtn" onclick="togglePlayMusic()" title="Play/Pause">▶</button>
+            <button class="music-btn" onclick="nextTrack()" title="Next Track">⏭</button>
+            <input type="range" id="seekSlider" class="seek-slider" value="0" min="0" max="100" oninput="seekTo()">
+            <span id="timeDisplay" class="time-display">0:00</span>
+        </div>
+        <div class="country-badge">
+            <div class="flag-box">
+                <span>Bangladesh</span>
+                <svg width="52" height="34" viewBox="0 0 600 400" style="border-radius: 3px;"><rect width="600" height="400" fill="#006a4e"/><circle cx="270" cy="200" r="120" fill="#f42a41"/></svg>
+            </div>
+            <span style="color: #94a3b8; margin: 0 4px;">|</span>
+            <div class="flag-box">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Seljuk_Empire_%2816_Great_Turkic_Empires%29_2.svg" alt="Seljuk Flag" width="52" height="34" style="border-radius: 3px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="creator-credit-top font-opt-0" id="creatorCreditTop">This website is created by Ridhoan Hossain Fahim</div>
+
+    <!-- ================= SECTION 1: FORM VIEW ================= -->
+    <div id="form-view">
+        <h2>ট্রেড লাইসেন্স ডাটা এন্ট্রি ফর্ম</h2>
+        <form id="licenseForm">
+            <h3>সাধারণ তথ্য</h3>
+            <div class="form-group"><label for="business_name">১। ব্যবসা প্রতিষ্ঠানের নাম:</label><div class="input-mic-wrapper"><input type="text" id="business_name"><div class="voice-controls-right"><select id="lang_business_name" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('business_name', 'lang_business_name', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="owner_name">২। প্রতিষ্ঠানের মালিকের নাম:</label><div class="input-mic-wrapper"><input type="text" id="owner_name"><div class="voice-controls-right"><select id="lang_owner_name" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('owner_name', 'lang_owner_name', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="father_name">৩। পিতা / স্বামীর নাম:</label><div class="input-mic-wrapper"><input type="text" id="father_name"><div class="voice-controls-right"><select id="lang_father_name" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('father_name', 'lang_father_name', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="mother_name">৪। মাতার নাম:</label><div class="input-mic-wrapper"><input type="text" id="mother_name"><div class="voice-controls-right"><select id="lang_mother_name" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('mother_name', 'lang_mother_name', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="business_nature">৫। ব্যবসার প্রকৃতি:</label><div class="input-mic-wrapper"><input type="text" id="business_nature" value="অন্যান্য-একক"><div class="voice-controls-right"><select id="lang_business_nature" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('business_nature', 'lang_business_nature', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="business_type">৬। ব্যবসার ধরণ:</label><div class="input-mic-wrapper"><input type="text" id="business_type"><div class="voice-controls-right"><select id="lang_business_type" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('business_type', 'lang_business_type', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="business_address">৭। প্রতিষ্ঠানের ঠিকানা:</label><div class="input-mic-wrapper"><input type="text" id="business_address"><div class="voice-controls-right"><select id="lang_business_address" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('business_address', 'lang_business_address', this)">🎙️</button></div></div></div>
+
+            <!-- অঞ্চল ড্রপডাউন -->
+            <div class="form-group">
+                <label for="zone">৮। অঞ্চল / বাজার শাখা:</label>
+                <div class="input-mic-wrapper">
+                    <select id="zone">
+                        <option value="অঞ্চল-১">অঞ্চল-১</option>
+                        <option value="অঞ্চল-২">অঞ্চল-২</option>
+                        <option value="অঞ্চল-৩">অঞ্চল-৩</option>
+                        <option value="অঞ্চল-৪">অঞ্চল-৪</option>
+                        <option value="অঞ্চল-৫" selected>অঞ্চল-৫</option>
+                        <option value="অঞ্চল-৬">অঞ্চল-৬</option>
+                        <option value="অঞ্চল-৭">অঞ্চল-৭</option>
+                        <option value="অঞ্চল-৮">অঞ্চল-৮</option>
+                        <option value="অঞ্চল-৯">অঞ্চল-৯</option>
+                        <option value="অঞ্চল-১০">অঞ্চল-১০</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group"><label for="area">এলাকাঃ</label><div class="input-mic-wrapper"><input type="text" id="area"><div class="voice-controls-right"><select id="lang_area" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('area', 'lang_area', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="ward">ওয়ার্ড / মার্কেট:</label><div class="input-mic-wrapper"><input type="text" id="ward"><div class="voice-controls-right"><select id="lang_ward" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('ward', 'lang_ward', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="nid">৯। এনআইডি/পাসপোর্ট/জন্ম নিব: নং:</label><div class="input-mic-wrapper"><input type="text" id="nid"><div class="voice-controls-right"><select id="lang_nid" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('nid', 'lang_nid', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="phone">ফোনঃ</label><div class="input-mic-wrapper"><input type="text" id="phone"><div class="voice-controls-right"><select id="lang_phone" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('phone', 'lang_phone', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="bin_no">বি আই এন নংঃ</label><div class="input-mic-wrapper"><input type="text" id="bin_no"><div class="voice-controls-right"><select id="lang_bin_no" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('bin_no', 'lang_bin_no', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="email">ই-মেইলঃ</label><div class="input-mic-wrapper"><input type="text" id="email"><div class="voice-controls-right"><select id="lang_email" class="lang-select"><option value="en-US">EN</option><option value="bn-BD">BN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('email', 'lang_email', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="fiscal_year">১০। অর্থ বছর:</label><div class="input-mic-wrapper"><input type="text" id="fiscal_year" placeholder="YYYY-YYYY" oninput="formatFiscalYear(this)"><div class="voice-controls-right"><select id="lang_fiscal_year" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('fiscal_year', 'lang_fiscal_year', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="start_date">ব্যবসা শুরুর তারিখ:</label><div class="input-mic-wrapper"><input
+    type="text"
+    id="start_date"
+    name="start_date"
+    placeholder="DD/MM/YYYY"
+    maxlength="10"
+    inputmode="numeric"
+    autocomplete="off"
+    oninput="formatDateInput(this)"
+    onkeydown="dateBackspace(event, this)"
+><div class="voice-controls-right"><select id="lang_start_date" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('start_date', 'lang_start_date', this)">🎙️</button></div></div></div>
+
+            <h3>মালিকের বর্তমান ঠিকানা</h3>
+            <div class="form-group"><label for="curr_holding">হোল্ডিং নং:</label><div class="input-mic-wrapper"><input type="text" id="curr_holding" oninput="syncAddress()"><div class="voice-controls-right"><select id="lang_curr_holding" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('curr_holding', 'lang_curr_holding', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="curr_road">রোড নংঃ</label><div class="input-mic-wrapper"><input type="text" id="curr_road" oninput="syncAddress()"><div class="voice-controls-right"><select id="lang_curr_road" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('curr_road', 'lang_curr_road', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="curr_village">গ্রাম / মহল্লা:</label><div class="input-mic-wrapper"><input type="text" id="curr_village" oninput="syncAddress()"><div class="voice-controls-right"><select id="lang_curr_village" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('curr_village', 'lang_curr_village', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="curr_postcode">পোস্টকোড:</label><div class="input-mic-wrapper"><input type="text" id="curr_postcode" oninput="syncAddress()"><div class="voice-controls-right"><select id="lang_curr_postcode" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('curr_postcode', 'lang_curr_postcode', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="curr_division">বিভাগঃ</label><div class="input-mic-wrapper"><select id="curr_division" onchange="onDivisionChange('curr'); syncAddress();"></select></div></div>
+            <div class="form-group"><label for="curr_district">জেলা:</label><div class="input-mic-wrapper"><select id="curr_district" onchange="onDistrictChange('curr'); syncAddress();"></select></div></div>
+            <div class="form-group"><label for="curr_thana">থানা:</label><div class="input-mic-wrapper"><select id="curr_thana" onchange="syncAddress()"></select></div></div>
+
+            <h3>মালিকের স্থায়ী ঠিকানা</h3>
+            <div class="checkbox-group">
+                <input type="checkbox" id="same_address" onchange="toggleSameAddress()">
+                <label for="same_address">বর্তমান ও স্থায়ী ঠিকানা একই</label>
+            </div>
+            <div class="form-group"><label for="perm_holding">হোল্ডিং নং:</label><div class="input-mic-wrapper"><input type="text" id="perm_holding"><div class="voice-controls-right"><select id="lang_perm_holding" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('perm_holding', 'lang_perm_holding', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="perm_road">রোড নংঃ</label><div class="input-mic-wrapper"><input type="text" id="perm_road"><div class="voice-controls-right"><select id="lang_perm_road" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('perm_road', 'lang_perm_road', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="perm_village">গ্রাম / মহল্লা:</label><div class="input-mic-wrapper"><input type="text" id="perm_village"><div class="voice-controls-right"><select id="lang_perm_village" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('perm_village', 'lang_perm_village', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="perm_postcode">পোস্টকোড:</label><div class="input-mic-wrapper"><input type="text" id="perm_postcode"><div class="voice-controls-right"><select id="lang_perm_postcode" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('perm_postcode', 'lang_perm_postcode', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="perm_division">বিভাগঃ</label><div class="input-mic-wrapper"><select id="perm_division" onchange="onDivisionChange('perm')"></select></div></div>
+            <div class="form-group"><label for="perm_district">জেলা:</label><div class="input-mic-wrapper"><select id="perm_district" onchange="onDistrictChange('perm')"></select></div></div>
+            <div class="form-group"><label for="perm_thana">থানা:</label><div class="input-mic-wrapper"><select id="perm_thana"></select></div></div>
+
+            <h3>লাইসেন্স সংক্রান্ত তথ্য</h3>
+            <div class="form-group"><label for="license_no">লাইসেন্স নং:</label><div class="input-mic-wrapper"><input type="text" id="license_no" placeholder="খালি রাখলে অটো Randomly বসবে"><div class="voice-controls-right"><select id="lang_license_no" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('license_no', 'lang_license_no', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="issue_date">ইস্যুর তারিখ:</label><div class="input-mic-wrapper"><input type="text" id="issue_date" placeholder="DD/MM/YYYY" oninput="formatDateInput(this)"><div class="voice-controls-right"><select id="lang_issue_date" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('issue_date', 'lang_issue_date', this)">🎙️</button></div></div></div>
+            <div class="form-group"><label for="issue_time">ইস্যুর সময়:</label><div class="input-mic-wrapper"><input type="text" id="issue_time" placeholder="HH:MM:SS" oninput="formatTimeInput(this)"><div class="voice-controls-right"><select id="lang_issue_time" class="lang-select"><option value="bn-BD">BN</option><option value="en-US">EN</option></select><button type="button" class="mic-btn" onclick="toggleVoiceTyping('issue_time', 'lang_issue_time', this)">🎙️</button></div></div></div>
+
+            <!-- কর্মকর্তাদের সিল সিলেকশন -->
+            <h3>কর্মকর্তার সিল সিলেকশন</h3>
+            <div class="form-group">
+                <label for="supervisor_name">লাইসেন্স ও বিজ্ঞাপন সুপারভাইজার:</label>
+                <div class="input-mic-wrapper">
+                    <select id="supervisor_name">
+                        <option value="লাইসেন্স ও বিজ্ঞাপন সুপারভাইজার">লাইসেন্স ও বিজ্ঞাপন সুপারভাইজার</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tax_officer_name">কর কর্মকর্তা:</label>
+                <div class="input-mic-wrapper">
+                    <select id="tax_officer_name">
+                        <option value="কর কর্মকর্তা">কর কর্মকর্তা</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" class="btn-save" onclick="goToQRSection()">পরবর্তী ধাপে যান (ছবি ও কিউআর)</button>
+            <button type="button" class="btn-reset" onclick="resetForm()">সব মুছে ফেলুন</button>
+        </form>
+    </div>
+
+    <!-- ================= SECTION 2: QR & PHOTO VIEW ================= -->
+    <div id="qr-photo-view" style="display: none;">
+        <h2>প্রোফাইল ছবি ও কিউআর কোড ম্যানেজমেন্ট</h2>
+        <div class="upload-section">
+            <div class="upload-box">
+                <label for="profile_pic_file" class="custom-file-upload">📁 Profile Picture</label>
+                <input type="file" id="profile_pic_file" accept="image/*" style="display: none;" onchange="previewImage(this, 'prof_prev')">
+                <br>
+                <img id="prof_prev" class="preview-img" alt="Profile Preview">
+            </div>
+            <div class="upload-box">
+                <label for="qr_pic_file" class="custom-file-upload qr-upload">📁 Custom QR Upload</label>
+                <input type="file" id="qr_pic_file" accept="image/*" style="display: none;" onchange="previewCustomQR(this)">
+                <br>
+                <div id="qr-container"></div>
+                <img id="qr_upload_prev" class="preview-qr-img" alt="Uploaded QR Preview">
+            </div>
+        </div>
+        <button type="button" class="btn-final" onclick="saveAndProceed()">সেভ করুন ও লাইসেন্স দেখুন</button>
+        <button type="button" class="btn-back" onclick="goBackToForm()">⬅ ফর্মে ফিরে যান</button>
+        <button type="button" class="btn-reset" onclick="resetQRAndPhoto()">সব মুছে ফেলুন</button>
+    </div>
+
+    <div class="creator-credit font-opt-0" id="creatorCredit">This website is created by Ridhoan Hossain Fahim</div>
+</div>
+
+<script>
+    const geoData = {
+        "ঢাকা": {
+            "ঢাকা": [
+                "যাত্রাবাড়ী", "শ্যামপুর", "কদমতলী", "ধানমন্ডি", "রমনা", "মতিঝিল", "লালবাগ", 
+                "উত্তরা পূর্ব", "উত্তরা পশ্চিম", "মিরপুর", "তেজগাঁও", "তেজগাঁও শিল্পাঞ্চল", 
+                "গুলশান", "পল্টন", "শাহবাগ", "নিউ মার্কেট", "হাজারীবাগ", "কামরাঙ্গীরচর", 
+                "চকবাজার", "বংশাল", "কোতোয়ালী", "সূত্রাপুর", "ওয়ারী", "গেন্ডারিয়া", 
+                "সবুজবাগ", "খিলগাঁও", "রামপুরা", "বাড্ডা", "ভাটারা", "বনানী", "ক্যান্টনমেন্ট", 
+                "কাফরুল", "ভাষানটেক", "দারুস সালাম", "শাহ আলী", "পল্লবী", "তুরাগ", 
+                "দক্ষিণখান", "উত্তরখান", "বিমানবন্দর", "শেরেবাংলা নগর", "মোহাম্মদপুর", 
+                "আদাবর", "সাভার", "ধামরাই", "কেরানীগঞ্জ", "নবাবগঞ্জ", "দোহার"
+            ],
+            "গাজীপুর": ["গাজীপুর সদর", "বাসন", "কোণাবাড়ী", "গাছা", "টঙ্গী পূর্ব", "টঙ্গী পশ্চিম", "কালিয়াকৈর", "কাপাসিয়া", "শ্রীপুর", "কালীগঞ্জ"],
+            "নারায়ণগঞ্জ": ["নারায়ণগঞ্জ সদর", "সিদ্ধিরগঞ্জ", "ফতুল্লা", "বন্দর", "রূপগঞ্জ", "সোনারগাঁ", "আড়াইহাজার"],
+            "নরসিংদী": ["নরসিংদী সদর", "বেলাব", "মনোহরদী", "পলাশ", "রায়পুরা", "শিবপুর", "মাধবদী"],
+            "মুন্সিগঞ্জ": ["মুন্সিগঞ্জ সদর", "শ্রীনগর", "সিরাজদিখান", "লৌহজং", "টঙ্গীবাড়ি", "গজারিয়া"],
+            "মানিকগঞ্জ": ["মানিকগঞ্জ সদর", "সিঙ্গাইর", "শিবালয়", "ঘিওর", "দৌলতপুর", "সাটুরিয়া", "হরিরামপুর"],
+            "ফরিদপুর": ["ফরিদপুর সদর", "বোয়ালমারী", "আলফাডাঙ্গা", "মধুখালী", "ভাঙ্গা", "নাগরকান্দা", "চরভদ্রাসন", "সদরপুর", "সালথা"],
+            "রাজবাড়ী": ["রাজবাড়ী সদর", "পাংশা", "কালুখালী", "বালিয়াককান্দি", "গোয়ালন্দ সদর"],
+            "মাদারীপুর": ["মাদারীপুর সদর", "শিবচর", "কালকিনি", "রাজৈর", "ডাসার"],
+            "গোপালগঞ্জ": ["গোপালগঞ্জ সদর", "কাশিয়ানী", "কোটালীপাড়া", "মুকসুদপুর", "টুঙ্গিপাড়া"],
+            "কিশোরগঞ্জ": ["কিশোরগঞ্জ সদর", "হোসেনপুর", "পাকুন্দিয়া", "কটিয়াদী", "করিমগঞ্জ", "তাড়াইল", "বাজিতপুর", "কুলিয়ারচর", "ভৈরব", "অষ্টগ্রাম", "ইটনা", "মিঠামইন"],
+            "টাঙ্গাইল": ["টাঙ্গাইল সদর", "সখিপুর", "বাসাইল", "কালিহাতি", "ঘাটাইল", "মির্জাপুর", "নাগরপুর", "মধুপুর", "ভূঞাপুর", "দেলদুয়ার", "ধনবাড়ী"],
+            "শরীয়তপুর": ["শরীয়তপুর সদর", "নড়িয়া", "জাজিরা", "গোসাইরহাট", "ভেদরগঞ্জ", "ডামুড্যা"]
+        },
+        "চট্টগ্রাম": {
+            "চট্টগ্রাম": [
+                "কোতোয়ালী", "ডবলমুরিং", "পাহাড়তলী", "পাঁচলাইশ", "বায়েজিদ বোস্তামী", "সীতাকুণ্ড", 
+                "মিরসরাই", "সন্দ্বীপ", "আউটার রিং রোড", "হালিশহর", "খুলশী", "বাকলিয়া", "চান্দগাঁও", 
+                "পতেঙ্গা", "বন্দর", "ইপিজেড", "কর্ণফুলী", "বোয়ালখালী", "পটিয়া", 
+                "চন্দনাইশ", "সাতকানিয়া", "লোহাগাড়া", "বাঁশখালী", "আনোয়ারা", "রাউজান", "ফটিকছড়ি", "হাটহাজারী"
+            ],
+            "কক্সবাজার": ["কক্সবাজার সদর", "চকরিয়া", "উখিয়া", "টেকনাফ", "মহেশখালী", "পেকুয়া", "রামু", "কুতুবদিয়া", "ঈদগাঁও"],
+            "কুমিল্লা": ["কুমিল্লা সদর", "ব্রাহ্মণপাড়া", "বুড়িচং", "চৌদ্দগ্রাম", "লাকসাম", "মনোহরগঞ্জ", "মুরাদনগর", "হোমনা", "তিতাস", "দেবিদ্বার", "চান্দিনা", "মেঘনা"],
+            "ব্রাহ্মণবাড়িয়া": ["ব্রাহ্মণবাড়িয়া সদর", "আশুগঞ্জ", "নাসিরনগর", "নবীনগর", "সরাইল", "কসবা", "আখাউড়া", "বাঞ্ছারামপুর", "বিজয়নগর"],
+            "চাঁদপুর": ["চাঁদপুর সদর", "হাজীগঞ্জ", "শাহরাস্তি", "ফরিদগঞ্জ", "মতলব উত্তর", "মতলব দক্ষিণ", "হাইমচর"],
+            "লক্ষ্মীপুর": ["লক্ষ্মীপুর সদর", "রায়পুর", "রামগতি", "কমলনগর", "রামগঞ্জ"],
+            "নোয়াখালী": ["নোয়াখালী সদর", "কোম্পানীগঞ্জ", "বেগমগঞ্জ", "চাটখিল", "সেনবাগ", "সুবর্ণচর", "হাতিয়া", "কবিরহাট"],
+            "ফেনী": ["ফেনী সদর", "দাগনভূঞা", "সোনাগাজী", "পরশুরাম", "ফুলগাজী", "ছাগলনাইয়া"],
+            "বান্দরবান": ["বান্দরবান সদর", "আলীকদম", "নাইক্ষ্যংছড়ি", "রোয়াংছড়ি", "লামা", "রুমা", "থানচি"],
+            "খাগড়াছড়ি": ["খাগড়াছড়ি সদর", "দীঘিনালা", "পানছড়ি", "লক্ষ্মীছড়ি", "মহালছড়ি", "মানিকছড়ি", "রামগড়", "মাটিরাঙ্গা"],
+            "রাঙ্গামাটি": ["রাঙ্গামাটি সদর", "কাপ্তাই", "কাউখালী", "বাঘাইছড়ি", "বরকল", "লংগদু", "নানিয়ারচর", "রাজস্থলী", "বেলাইছড়ি", "জুরাছড়ি"]
+        },
+        "রাজশাহী": {
+            "রাজশাহী": ["বোয়ালিয়া", "মতিহার", "রাজপাড়া", "শাহমখদুম", "কাশিয়াডাঙ্গা", "চন্দ্রিমা", "পবা", "দুর্গাপুর", "মোহনপুর", "চারঘাট", "বাঘা"],
+            "বগুড়া": ["বগুড়া সদর", "শাজাহানপুর", "দুপচাঁচিয়া", "আদমদীঘি", "নন্দীগ্রাম", "সোনাতলা", "গাবতলী", "শেরপুর", "ধুনট", "সারিয়াকান্দি"],
+            "পাবনা": ["পাবনা সদর", "ঈশ্বরদী", "আটঘরিয়া", "চাটমোহর", "বেড়া", "সুজানগর", "ভাঙ্গুড়া", "সাথিয়া"],
+            "সিরাজগঞ্জ": ["সিরাজগঞ্জ সদর", "কাজিপুর", "উল্লাপাড়া", "শাহজাদপুর", "বেলকুচি", "চৌহালি", "রায়গঞ্জ", "তারাকান্দি"],
+            "নাটোর": ["নাটোর সদর", "বাগাতিপাড়া", "বড়াইগ্রাম", "লালপুর", "গুরুদাসপুর", "সিংড়া"],
+            "নওগাঁ": ["নওগাঁ সদর", "মহাদেবপুর", "মান্দা", "পোরশা", "নিয়ামতপুর", "আত্রাই", "রানীনগর", "পত্নীতলা", "ধামইরহাট", "বদলগাছী"],
+            "চাঁপাইনবাবগঞ্জ": ["চাঁপাইনবাবগঞ্জ সদর", "গোমস্তাপুর", "নাচোল", "ভোলাহাট", "শিবগঞ্জ"],
+            "জয়পুরহাট": ["জয়পুরহাট সদর", "পাঁচবিবি", "আক্কেলপুর", "কালাই", "ক্ষেতলাল"]
+        },
+        "খুলনা": {
+            "খুলনা": ["সোনাডাঙ্গা", "খালিশপুর", "কোতোয়ালী", "দৌলতপুর", "খানজাহান আলী", "হরিণটানা", "ডুমুরিয়া", "পাইকগাছা", "বটিয়াঘাটা", "রূপসা", "তেরখাদা", "দিঘলিয়া", "কয়রা"],
+            "যশোর": ["যশোর সদর", "অভয়নগর", "কেশবপুর", "চৌগাছা", "ঝিকরগাছা", "বাঘারপাড়া", "শার্শা", "মনিরামপুর"],
+            "সাতক্ষীরা": ["সাতক্ষীরা সদর", "কলারোয়া", "তালা", "দেবহাটা", "কালীগঞ্জ", "শ্যামনগর", "আশাশুনি"],
+            "বাগেরহাট": ["বাগেরহাট সদর", "মংলা", "মোরেলগঞ্জ", "শরণখোলা", "রামপাল", "ফকিরহাট", "চিতলমারী", "কচুয়া", "মোল্লাহাট"],
+            "নড়াইল": ["নড়াইল সদর", "লোহাগড়া", "কালিয়া"],
+            "মাগুরা": ["মাগুরা সদর", "শ্রীপুর", "মহম্মদপুর", "শালিখা"],
+            "ঝিনাইদহ": ["ঝিনাইদহ সদর", "শৈলকুপা", "হরিণাকুন্ডু", "কালীগঞ্জ", "কোটচাঁদপুর", "মহেশপুর"],
+            "চুয়াডাঙ্গা": ["চুয়াডাঙ্গা সদর", "আলমডাঙ্গা", "দামুড়হুদা", "জীবননগর"],
+            "মেহেরপুর": ["মেহেরপুর সদর", "গাংনী", "মুজিবনগর"],
+            "কুষ্টিয়া": ["কুষ্টিয়া সদর", "কুমারখালী", "দৌলতপুর", "মিরপুর", "ভেড়ামারা", "খোকসা"]
+        },
+        "বরিশাল": {
+            "বরিশাল": ["কোতোয়ালী", "এয়ারপোর্ট", "বাকেরগঞ্জ", "বাবুগঞ্জ", "উজিরপুর", "মেহেন্দিগঞ্জ", "মুলাদী", "হিজলা", "বানারীপাড়া"],
+            "পটুয়াখালী": ["পটুয়াখালী সদর", "বাউফল", "গলাচিপা", "দশমিনা", "কলাপাড়া", "রাঙ্গাবালী", "মির্জাগঞ্জ"],
+            "ভোলা": ["ভোলা সদর", "বোরহানউদ্দিন", "চরফ্যাশন", "দৌলতখান", "লালমোহন", "তাজুমদ্দিন", "মনপুরা"],
+            "পিরোজপুর": ["পিরোজপুর সদর", "নাজিরপুর", "কাউখালী", "ভাণ্ডারিয়া", "মঠবাড়িয়া", "ইন্দুরকানি", "নেছারাবাদ"],
+            "ঝালকাঠি": ["ঝালকাঠি সদর", "নলছিটি", "কাঠালিয়া", "রাজাপুর"],
+            "বরগুনা": ["বরগুনা সদর", "বেতাগী", "বামনা", "পাথরঘাটা", "আমতলী", "তালতলী"]
+        },
+        "সিলেট": {
+            "সিলেট": ["কোতোয়ালী", "দক্ষিণ সুরমা", "মোগলাবাজার", "জকিগঞ্জ", "কানাইঘাট", "বালাগঞ্জ", "গোলাপগঞ্জ", "বিশ্বনাথ", "ফেঞ্চুগঞ্জ", "কোম্পানিগঞ্জ", "জৈন্তাপুর", "গোয়াইনঘাট"],
+            "মৌলভীবাজার": ["মৌলভীবাজার সদর", "বড়লেখা", "কমলগঞ্জ", "শ্রীমঙ্গল", "রাজনগর", "কুলাউড়া", "জুড়ী"],
+            "হবিগঞ্জ": ["হবিগঞ্জ সদর", "নবীগঞ্জ", "বাহুবল", "চুনারুঘাট", "মাধবপুর", "আজমিরীগঞ্জ", "বানিয়াচং", "লাখাই", "শায়েস্তাগঞ্জ"],
+            "সুনামগঞ্জ": ["সুনামগঞ্জ সদর", "দক্ষিণ সুনামগঞ্জ", "বিশ্বম্ভরপুর", "ছাতক", "দোয়ারাবাজার", "জগন্নাথপুর", "তাহিরপুর", "ধর্মপাশা", "শাল্লা", "দিরাই", "মধ্যনগর"]
+        },
+        "রংপুর": {
+            "রংপুর": ["কোতোয়ালী", "হারাগাছ", "তারাগঞ্জ", "বদরগঞ্জ", "পীরগঞ্জ", "কাউনিয়া", "মিঠাপুকুর", "পীরগাছা"],
+            "দিনাজপুর": ["দিনাজপুর সদর", "বীরগঞ্জ", "বিরামপুর", "পার্বতীপুর", "বোচাগঞ্জ", "কাহারোল", "ফুলবাড়ী", "নবাবগঞ্জ", "ঘোড়াঘাট", "হাকিমপুর", "চিরিরবন্দর"],
+            "গাইবান্ধা": ["গাইবান্ধা সদর", "ফুলছড়ি", "সাঘাটা", "গোবিন্দগঞ্জ", "পলাশবাড়ী", "সাদুল্লাপুর", "সুন্দরগঞ্জ"],
+            "কুড়িগ্রাম": ["কুড়িগ্রাম সদর", "নাগেশ্বরী", "ভুরুঙ্গামারী", "ফুলবাড়ী", "উলিপুর", "চিলমারী", "রাজিবপুর", "রৌমারী"],
+            "লালমনিরহাট": ["লালমনিরহাট সদর", "হাতীবান্ধা", "কালীগঞ্জ", "আদিতমারী", "পাটগ্রাম"],
+            "নীলফামারী": ["নীলফামারী সদর", "জলঢাকা", "কিশোরগঞ্জ", "ডোমার", "দিঘলিয়া", "সৈয়দপুর"],
+            "পঞ্চগড়": ["পঞ্চগড় সদর", "বোদা", "দেবীগঞ্জ", "আটোয়ারী", "তেঁতুলিয়া"],
+            "ঠাকুরগাঁও": ["ঠাকুরগাঁও সদর", "বালিয়াডাচি", "হরিপুর", "রাণীশংকৈল", "পীরগঞ্জ"]
+        },
+        "ময়মনসিংহ": {
+            "ময়মনসিংহ": ["কোতোয়ালী", "ভালুকা", "মুক্তাগাছা", "ফুলপুর", "হালুয়াঘাট", "গৌরীপুর", "ত্রিশাল", "ধোবাউড়া", "ফুলবাড়িয়া", "নান্দাইল", "ঈশ্বরগঞ্জ", "তারাকান্দা"],
+            "জামালপুর": ["জামালপুর সদর", "মেলান্দহ", "ইসলামপুর", "দেওয়ানগঞ্জ", "বকশীগঞ্জ", "সরিষাবাড়ী", "মাদারগঞ্জ"],
+            "শেরপুর": ["শেরপুর সদর", "নালিতাবাড়ী", "শ্রীবরদী", "ঝিনাইগাতী", "নকলা"],
+            "নেত্রকোণা": ["নেত্রকোণা সদর", "পূর্বধলা", "কলমাকান্দা", "বারহাট্টা", "দুর্গাপুর", "কেন্দুয়া", "আটপাড়া", "মদন", "খালিয়াজুরী", "মোহনগঞ্জ"]
+        }
+    };
+
+    function initGeoDropdowns(prefix) {
+        const divSelect = document.getElementById(prefix + '_division');
+        if(!divSelect) return;
+        divSelect.innerHTML = "";
+        Object.keys(geoData).forEach(div => {
+            let opt = document.createElement('option');
+            opt.value = div;
+            opt.innerText = div;
+            divSelect.appendChild(opt);
+        });
+        divSelect.value = "ঢাকা";
+        onDivisionChange(prefix);
+    }
+
+    function onDivisionChange(prefix) {
+        const divSelect = document.getElementById(prefix + '_division');
+        const distSelect = document.getElementById(prefix + '_district');
+        if(!divSelect || !distSelect) return;
+
+        const divVal = divSelect.value;
+        distSelect.innerHTML = "";
+        
+        if (geoData[divVal]) {
+            Object.keys(geoData[divVal]).forEach(dist => {
+                let opt = document.createElement('option');
+                opt.value = dist;
+                opt.innerText = dist;
+                distSelect.appendChild(opt);
+            });
+            if (geoData[divVal]["ঢাকা"]) {
+                distSelect.value = "ঢাকা";
+            } else {
+                distSelect.selectedIndex = 0;
+            }
+        }
+        onDistrictChange(prefix);
+    }
+
+    function onDistrictChange(prefix) {
+        const divSelect = document.getElementById(prefix + '_division');
+        const distSelect = document.getElementById(prefix + '_district');
+        const thanaSelect = document.getElementById(prefix + '_thana');
+        if(!divSelect || !distSelect || !thanaSelect) return;
+
+        const divVal = divSelect.value;
+        const distVal = distSelect.value;
+        thanaSelect.innerHTML = "";
+
+        if (geoData[divVal] && geoData[divVal][distVal]) {
+            geoData[divVal][distVal].forEach(thana => {
+                let opt = document.createElement('option');
+                opt.value = thana;
+                opt.innerText = thana;
+                thanaSelect.appendChild(opt);
+            });
+        }
+    }
+
+    let fontIndex = 0;
+    const totalFonts = 13;
+    setInterval(() => {
+        const cCredit = document.getElementById('creatorCredit');
+        const cCreditTop = document.getElementById('creatorCreditTop');
+        if(cCredit && cCreditTop) {
+            cCredit.style.opacity = 0;
+            cCreditTop.style.opacity = 0;
+            setTimeout(() => {
+                cCredit.className = cCredit.className.replace(/font-opt-\d+/g, '');
+                cCreditTop.className = cCreditTop.className.replace(/font-opt-\d+/g, '');
+                fontIndex = (fontIndex + 1) % totalFonts;
+                cCredit.classList.add('font-opt-' + fontIndex);
+                cCreditTop.classList.add('font-opt-' + fontIndex);
+                cCredit.style.opacity = 1;
+                cCreditTop.style.opacity = 1;
+            }, 300);
+        }
+    }, 15000);
+
+    function formatFiscalYear(input) {
+        let val = input.value;
+        let cleanVal = val.replace(/[^0-9০-৯\-\/]/g, '');
+        let digitsOnly = cleanVal.replace(/[^0-9০-৯]/g, '');
+        if (digitsOnly.length > 4 && !cleanVal.includes('-') && !cleanVal.includes('/')) {
+            cleanVal = digitsOnly.slice(0, 4) + '-' + digitsOnly.slice(4, 8);
+        } else if (cleanVal.length > 9) {
+            cleanVal = cleanVal.slice(0, 9);
+        }
+        input.value = cleanVal;
+    }
+
+    function formatDateInput(input) {
+        let digits = input.value.replace(/\D/g, '').slice(0, 8);
+
+        // দিন (Day) ভ্যালিডেশন: সর্বোচ্চ ৩১ দিন
+        if (digits.length >= 2) {
+            let day = parseInt(digits.slice(0, 2), 10);
+            if (day > 31) {
+                digits = '31' + digits.slice(2);
+            } else if (digits.slice(0, 2) === '00') {
+                digits = '01' + digits.slice(2);
+            }
+        }
+
+        // মাস (Month) ভ্যালিডেশন: সর্বোচ্চ ১২ মাস
+        if (digits.length >= 4) {
+            let month = parseInt(digits.slice(2, 4), 10);
+            if (month > 12) {
+                digits = digits.slice(0, 2) + '12' + digits.slice(4);
+            } else if (digits.slice(2, 4) === '00') {
+                digits = digits.slice(0, 2) + '01' + digits.slice(4);
+            }
+        }
+
+        // প্রতি ২ ডিজিট পর পর স্বয়ংক্রিয়ভাবে '/' যুক্ত করা
+        let formatted = '';
+        if (digits.length > 0) {
+            formatted += digits.substring(0, 2);
+        }
+        if (digits.length >= 3) {
+            formatted += '/' + digits.substring(2, 4);
+        } else if (digits.length === 2) {
+            formatted += '/';
+        }
+
+        if (digits.length >= 5) {
+            formatted += '/' + digits.substring(4, 8);
+        } else if (digits.length === 4) {
+            formatted += '/';
+        }
+
+        input.value = formatted;
+    }
+
+function dateBackspace(event, input) {
+    if (event.key !== 'Backspace') return;
+
+    let start = input.selectionStart;
+    let end = input.selectionEnd;
+
+    if (start !== end || input.value[start - 1] !== '/') return;
+
+    event.preventDefault();
+
+    let digits = input.value.replace(/\D/g, '');
+    let position = input.value.slice(0, start).replace(/\D/g, '').length;
+
+    digits = digits.slice(0, position - 1) + digits.slice(position);
+
+    let formatted = digits.slice(0, 2);
+    if (digits.length >= 2) formatted += '/';
+    if (digits.length > 2) formatted += digits.slice(2, 4);
+    if (digits.length >= 4) formatted += '/';
+    if (digits.length > 4) formatted += digits.slice(4, 8);
+
+    input.value = formatted;
+
+    let cursor = 0;
+    let count = 0;
+    let target = Math.max(0, position - 1);
+
+    while (cursor < formatted.length && count < target) {
+        if (/\d/.test(formatted[cursor])) count++;
+        cursor++;
+    }
+
+    if (formatted[cursor] === '/') cursor++;
+
+    input.setSelectionRange(cursor, cursor);
+}
+
+    function formatTimeInput(input) {
+        let val = input.value.replace(/[^0-9]/g, '');
+        let formatted = '';
+        if (val.length > 0) {
+            let hh = val.slice(0, 2);
+            if (parseInt(hh, 10) > 23) hh = '23';
+            formatted += hh;
+        }
+        if (val.length >= 3) {
+            formatted += ':';
+            let mm = val.slice(2, 4);
+            if (parseInt(mm, 10) > 59) mm = '59';
+            formatted += mm;
+        }
+        if (val.length >= 5) {
+            formatted += ':';
+            let ss = val.slice(4, 6);
+            if (parseInt(ss, 10) > 59) ss = '59';
+            formatted += ss;
+        }
+        input.value = formatted;
+    }
+
+    let activeRecognition = null;
+    let activeBtn = null;
+    function toggleVoiceTyping(inputId, langSelectId, btn) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert("আপনার ব্রাউজারে ভয়েস টাইপিং সমর্থিত নয়। Chrome/Edge ব্যবহার করুন।");
+            return;
+        }
+        if (activeRecognition) {
+            activeRecognition.stop();
+            if (activeBtn) activeBtn.classList.remove('listening');
+            if (activeBtn === btn) {
+                activeRecognition = null;
+                activeBtn = null;
+                return;
+            }
+        }
+        const recognition = new SpeechRecognition();
+        recognition.lang = document.getElementById(langSelectId).value;
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        activeRecognition = recognition;
+        activeBtn = btn;
+        btn.classList.add('listening');
+        const inputField = document.getElementById(inputId);
+        let baseText = inputField.value;
+        recognition.onresult = function(event) {
+            let trans = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                trans += event.results[i][0].transcript;
+            }
+            inputField.value = baseText ? (baseText + ' ' + trans) : trans;
+            if (inputId === 'fiscal_year') formatFiscalYear(inputField);
+            if (inputId === 'start_date' || inputId === 'issue_date') formatDateInput(inputField);
+            if (inputId === 'issue_time') formatTimeInput(inputField);
+        };
+        recognition.onend = () => {
+            btn.classList.remove('listening');
+            activeRecognition = null;
+            activeBtn = null;
+        };
+        recognition.onerror = (event) => {
+            btn.classList.remove('listening');
+            activeRecognition = null;
+            activeBtn = null;
+            if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+                alert("মাইক্রোফোনের অনুমতি দেওয়া হয়নি! ব্রাউজার সেটিংস থেকে মাইক্রোফোন পারমিশন অন করুন।");
+            }
+        };
+        recognition.start();
+    }
+
+    function toggleSameAddress() {
+        const isChecked = document.getElementById('same_address').checked;
+        ['holding', 'road', 'village', 'postcode'].forEach(field => {
+            let perm = document.getElementById('perm_' + field);
+            let curr = document.getElementById('curr_' + field);
+            if (isChecked && perm && curr) {
+                perm.value = curr.value;
+                perm.readOnly = true;
+                perm.style.backgroundColor = '#e2e8f0';
+            } else if (perm) {
+                perm.readOnly = false;
+                perm.style.backgroundColor = '#f8fafc';
+            }
+        });
+
+        ['division', 'district', 'thana'].forEach(field => {
+            let perm = document.getElementById('perm_' + field);
+            let curr = document.getElementById('curr_' + field);
+            if (isChecked && perm && curr) {
+                perm.value = curr.value;
+                perm.disabled = true;
+                perm.style.backgroundColor = '#e2e8f0';
+            } else if (perm) {
+                perm.disabled = false;
+                perm.style.backgroundColor = '#f8fafc';
+            }
+        });
+    }
+
+    function syncAddress() {
+        if (document.getElementById('same_address').checked) {
+            document.getElementById('perm_division').value = document.getElementById('curr_division').value;
+            onDivisionChange('perm');
+            document.getElementById('perm_district').value = document.getElementById('curr_district').value;
+            onDistrictChange('perm');
+            document.getElementById('perm_thana').value = document.getElementById('curr_thana').value;
+            toggleSameAddress();
+        }
+    }
+
+    let parsedData = {};
+    let profileBase64 = "";
+    let uploadedQrBase64 = "";
+    let finalGeneratedQr = "";
+
+    function goToQRSection() {
+        let issueDateVal = document.getElementById('issue_date').value.trim();
+        let issueTimeVal = document.getElementById('issue_time').value.trim();
+        const currentYear = new Date().getFullYear();
+        let finalIssueDate = issueDateVal !== "" ? issueDateVal : (() => {
+            let d = new Date();
+            let randomDaysBack = Math.floor(Math.random() * 120) + 1;
+            d.setDate(d.getDate() - randomDaysBack);
+            return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+        })();
+        let finalIssueTime = issueTimeVal !== "" ? issueTimeVal : (() => {
+            let hh = String(Math.floor(Math.random() * 24)).padStart(2, '0');
+            let mm = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+            let ss = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+            return `${hh}:${mm}:${ss}`;
+        })();
+        let rawLicenseNo = document.getElementById('license_no').value.trim();
+        let finalLicenseInput = rawLicenseNo !== "" ? rawLicenseNo : "TRAD/DSCC/" + Math.floor(100000 + Math.random() * 900000) + "/" + currentYear;
+        let rawFiscalYear = document.getElementById('fiscal_year').value.trim();
+        let isBengaliFiscal = /[০-৯]/.test(rawFiscalYear);
+        let formattedFiscalYear = rawFiscalYear;
+        if (rawFiscalYear !== "") {
+            let tag = isBengaliFiscal ? "[নতুন]" : "[NEW]";
+            if (!rawFiscalYear.includes(tag)) {
+                formattedFiscalYear = rawFiscalYear + tag;
+            }
+        }
+
+        parsedData = {
+            business_name: document.getElementById('business_name').value.trim(),
+            owner_name: document.getElementById('owner_name').value.trim(),
+            father_name: document.getElementById('father_name').value.trim(),
+            mother_name: document.getElementById('mother_name').value.trim(),
+            business_nature: document.getElementById('business_nature').value.trim(),
+            business_type: document.getElementById('business_type').value.trim(),
+            business_address: document.getElementById('business_address').value.trim(),
+            zone: document.getElementById('zone').value,
+            area: document.getElementById('area').value.trim(),
+            ward: document.getElementById('ward').value.trim(),
+            nid: document.getElementById('nid').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            bin_no: document.getElementById('bin_no').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            fiscal_year: formattedFiscalYear,
+            start_date: document.getElementById('start_date').value.trim(),
+            curr_holding: document.getElementById('curr_holding').value.trim(),
+            curr_road: document.getElementById('curr_road').value.trim(),
+            curr_village: document.getElementById('curr_village').value.trim(),
+            curr_postcode: document.getElementById('curr_postcode').value.trim(),
+            curr_division: document.getElementById('curr_division').value,
+            curr_district: document.getElementById('curr_district').value,
+            curr_thana: document.getElementById('curr_thana').value,
+            same_address: document.getElementById('same_address').checked,
+            perm_holding: document.getElementById('perm_holding').value.trim(),
+            perm_road: document.getElementById('perm_road').value.trim(),
+            perm_village: document.getElementById('perm_village').value.trim(),
+            perm_postcode: document.getElementById('perm_postcode').value.trim(),
+            perm_division: document.getElementById('perm_division').value,
+            perm_district: document.getElementById('perm_district').value,
+            perm_thana: document.getElementById('perm_thana').value,
+            license_no: finalLicenseInput,
+            issue_date: finalIssueDate,
+            issue_time: finalIssueTime,
+            supervisor_name: document.getElementById('supervisor_name').value,
+            tax_officer_name: document.getElementById('tax_officer_name').value
+        };
+
+        sessionStorage.setItem('tradeFormDraft', JSON.stringify(parsedData));
+
+        let cleanFiscal = parsedData.fiscal_year.replace('[NEW]', '').replace('[নতুন]', '');
+        let fiscalTag = /[০-৯]/.test(parsedData.fiscal_year) ? '[নতুন]' : '[NEW]';
+        let qrString = `লাইসেন্স নং : ${parsedData.license_no}\nব্যবসা প্রতিষ্ঠানের নাম : ${parsedData.business_name}\nপ্রতিষ্ঠানের মালিকের নাম : ${parsedData.owner_name}\nঅর্থ বছর : ${cleanFiscal}${fiscalTag}`;
+
+        const qrDiv = document.getElementById("qr-container");
+        qrDiv.innerHTML = "";
+        let encodedData = encodeURIComponent(qrString);
+        let qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodedData}`;
+        qrDiv.innerHTML = `<img src="${qrApiUrl}" alt="QR Code" width="110" height="110" style="border-radius: 6px;">`;
+        finalGeneratedQr = qrApiUrl;
+
+        document.getElementById('form-view').style.display = 'none';
+        document.getElementById('qr-photo-view').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goBackToForm() {
+        document.getElementById('qr-photo-view').style.display = 'none';
+        document.getElementById('form-view').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function previewImage(input, imgId) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(imgId).src = e.target.result;
+                document.getElementById(imgId).style.display = "block";
+                profileBase64 = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function previewCustomQR(input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedQrBase64 = e.target.result;
+                let qPrev = document.getElementById('qr_upload_prev');
+                qPrev.src = uploadedQrBase64;
+                qPrev.style.display = "block";
+                document.getElementById('qr-container').style.display = "none";
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function saveAndProceed() {
+        const finalQrCodeToUse = uploadedQrBase64 ? uploadedQrBase64 : finalGeneratedQr;
+        const completeData = {
+            ...parsedData,
+            profile_pic: profileBase64,
+            uploaded_qr: uploadedQrBase64,
+            qr_code: finalQrCodeToUse
+        };
+        sessionStorage.setItem('tradeLicenseData', JSON.stringify(completeData));
+        window.location.replace('BDTradelicence.html');
+    }
+
+    function resetForm() {
+        if (confirm("আপনি কি সত্যিই ফর্মের সব তথ্য মুছে ফেলতে চান?")) {
+            sessionStorage.removeItem('tradeFormDraft');
+            document.getElementById('licenseForm').reset();
+            document.getElementById('business_nature').value = "অন্যান্য-একক";
+            initGeoDropdowns('curr');
+            initGeoDropdowns('perm');
+        }
+    }
+
+    function resetQRAndPhoto() {
+        if (confirm("আপনি কি সত্যিই সমস্ত ছবি ও কিউআর কোড মুছে ফেলতে চান?")) {
+            profileBase64 = "";
+            uploadedQrBase64 = "";
+            finalGeneratedQr = "";
+            let profPrev = document.getElementById('prof_prev');
+            if (profPrev) { profPrev.src = ""; profPrev.style.display = "none"; }
+            let qrPrev = document.getElementById('qr_upload_prev');
+            if (qrPrev) { qrPrev.src = ""; qrPrev.style.display = "none"; }
+            document.getElementById('profile_pic_file').value = "";
+            document.getElementById('qr_pic_file').value = "";
+            let qrContainer = document.getElementById('qr-container');
+            if (qrContainer) {
+                qrContainer.style.display = "flex";
+                qrContainer.innerHTML = "<span style='font-size:11px; color:#64748b;'>তথ্য নেই</span>";
+            }
+            sessionStorage.removeItem('tradeLicenseData');
+            alert("সব ছবি ও কিউআর কোড সফলভাবে মুছে ফেলা হয়েছে!");
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        initGeoDropdowns('curr');
+        initGeoDropdowns('perm');
+
+        const natField = document.getElementById('business_nature');
+        if (natField && !natField.value) {
+            natField.value = "অন্যান্য-একক";
+        }
+
+        const savedDraft = sessionStorage.getItem('tradeFormDraft');
+        if (savedDraft) {
+            try {
+                parsedData = JSON.parse(savedDraft);
+                for (const key in parsedData) {
+                    let field = document.getElementById(key);
+                    if (field) {
+                        if (field.type === 'checkbox') {
+                            field.checked = parsedData[key];
+                            if (key === 'same_address') toggleSameAddress();
+                        } else {
+                            if (key === 'business_nature' && !parsedData[key]) {
+                                field.value = "অন্যান্য-একক";
+                            } else {
+                                field.value = parsedData[key];
+                            }
+
+                            if (key === 'curr_division') onDivisionChange('curr');
+                            if (key === 'curr_district') onDistrictChange('curr');
+                            if (key === 'perm_division') onDivisionChange('perm');
+                            if (key === 'perm_district') onDistrictChange('perm');
+                        }
+                    }
+                }
+            } catch(e) {
+                console.error("Session draft loading error", e);
+            }
+        }
+    });
+
+    const musicPlaylist = [
+        'audio/song1.mp3', 'audio/song2.mp3', 'audio/song3.mp3', 'audio/song4.mp3', 'audio/song5.mp3',
+        'audio/song6.mp3', 'audio/song7.mp3', 'audio/song8.mp3', 'audio/song9.mp3', 'audio/song10.mp3'
+    ];
+    let currentTrackIndex = 0;
+    let isPlaying = false;
+    const audio = document.getElementById('audioPlayer');
+    const seekSlider = document.getElementById('seekSlider');
+    const timeDisplay = document.getElementById('timeDisplay');
+
+    function loadTrack(index) {
+        audio.src = musicPlaylist[index];
+        audio.load();
+    }
+
+    function togglePlayMusic() {
+        if (!audio.src || audio.src === window.location.href) {
+            loadTrack(currentTrackIndex);
+        }
+        let btn = document.getElementById('playPauseBtn');
+        if (isPlaying) {
+            audio.pause();
+            isPlaying = false;
+            if(btn) btn.innerText = '▶';
+        } else {
+            audio.play().then(() => {
+                isPlaying = true;
+                if(btn) btn.innerText = '⏸';
+            }).catch(e => {
+                console.log("Audio play error:", e);
+            });
+        }
+    }
+
+    function nextTrack() {
+        currentTrackIndex = (currentTrackIndex + 1) % musicPlaylist.length;
+        loadTrack(currentTrackIndex);
+        if (isPlaying) { audio.play().catch(e => console.log(e)); }
+    }
+
+    function prevTrack() {
+        currentTrackIndex = (currentTrackIndex - 1 + musicPlaylist.length) % musicPlaylist.length;
+        loadTrack(currentTrackIndex);
+        if (isPlaying) { audio.play().catch(e => console.log(e)); }
+    }
+
+    function seekTo() {
+        if (audio.duration && !isNaN(audio.duration)) {
+            let seekto = audio.duration * (seekSlider.value / 100);
+            audio.currentTime = seekto;
+        }
+    }
+
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration && !isNaN(audio.duration)) {
+            let seekPosition = audio.currentTime * (100 / audio.duration);
+            seekSlider.value = seekPosition;
+            let curMins = Math.floor(audio.currentTime / 60);
+            let curSecs = Math.floor(audio.currentTime % 60);
+            if (curSecs < 10) curSecs = "0" + curSecs;
+            timeDisplay.innerText = curMins + ":" + curSecs;
+        }
+    });
+
+    audio.addEventListener('ended', () => {
+        nextTrack();
+    });
+</script>
+</body>
+</html>
